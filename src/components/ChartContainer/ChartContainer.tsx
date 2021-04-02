@@ -1,11 +1,9 @@
-import { MainContainer, SubContainer } from "./styles"
+import { MainContainer, SubContainer } from './styles'
 
-const ChartContainer = () => {
+const ChartContainer: React.FC = ({ children }) => {
   return (
     <MainContainer>
-      <SubContainer>
-        Hello
-      </SubContainer>
+      <SubContainer>{children}</SubContainer>
     </MainContainer>
   )
 }
