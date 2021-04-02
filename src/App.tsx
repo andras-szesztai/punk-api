@@ -1,24 +1,20 @@
 
-import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import 'semantic-ui-css/semantic.min.css'
 
 import { ChartContainer } from './components';
-import { DataPoint } from './types/data';
+import { METRICS } from './constants/metrics';
+
+import { useFetchOnMount } from './hooks';
 
 function App() {
 
-  const [ data, setData ] = useState([] as (undefined | Array<DataPoint>))
-  const isFetched = useRef(false)
+  const { data, error } = useFetchOnMount()
 
-  useEffect(() => {
-    if(!isFetched){
-      // axios
-      // .all()
-      // .then()
-    }
-  }, [data, setData])
-  
+  const [ yMetric, setYMetric ] = useState(METRICS[0].key)
+  const [ xMetric, setXMetric ] = useState(METRICS[1].key)
+  const [ sizeMetric, setSizeMetric ] = useState("")
+
   return (
     <div className="App">
      <ChartContainer/>
