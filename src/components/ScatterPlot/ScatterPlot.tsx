@@ -94,6 +94,9 @@ const ScatterPlot = (props: IProps) => {
           <div>
             {METRICS_KEY_TO_TEXT[xKey]}: &nbsp;<span>{hoveredData[xKey]}</span>
           </div>
+          <div>
+            <span>Click</span> to find out more!
+          </div>
         </Tooltip>
       )}
     </>

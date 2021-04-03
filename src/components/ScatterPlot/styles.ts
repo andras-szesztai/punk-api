@@ -1,4 +1,6 @@
 import styled from 'styled-components'
+import chroma from 'chroma-js'
+
 import colors from '../../styles/colors'
 
 export const Svg = styled.svg`
@@ -24,11 +26,14 @@ export const Tooltip = styled.div<ITooltipProps>`
   pointer-events: none;
   border-radius: 4px;
   padding: 4px 8px;
-  display: flex;
-  flex-direction: column;
+
+  display: grid;
+  row-gap: 4px;
   color: ${colors.primary};
   white-space: nowrap;
   font-weight: 300;
+
+  filter: drop-shadow(1px 1px 2px rgba(54, 72, 94, 0.6));
 
   span {
     font-weight: 500;
