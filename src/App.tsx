@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import 'semantic-ui-css/semantic.min.css'
 
-import { ChartContainer, MetricSelector, SearchBar } from './components'
+import {
+  ChartContainer,
+  InfoModal,
+  MetricSelector,
+  SearchBar,
+} from './components'
 
 import { useFetchOnMount } from './hooks'
 
@@ -55,14 +60,22 @@ function App() {
           bottom={-40}
           clearable
         />
-        <ScatterPlot
-          data={data}
-          yKey={yMetric}
-          xKey={xMetric}
-          sizeKey={sizeMetric}
-          setSelectedDataPoint={setSelectedDataPoint}
-        />
+        {!error ? (
+          <ScatterPlot
+            data={data}
+            yKey={yMetric}
+            xKey={xMetric}
+            sizeKey={sizeMetric}
+            setSelectedDataPoint={setSelectedDataPoint}
+          />
+        ) : (
+          <p>{error}</p>
+        )}
       </ChartContainer>
+      <InfoModal
+        selectedDataPoint={selectedDataPoint}
+        setSelectedDataPoint={setSelectedDataPoint}
+      />
     </div>
   )
 }

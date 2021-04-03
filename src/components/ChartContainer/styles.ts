@@ -17,4 +17,7 @@ export const SubContainer = styled.section`
   height: ${DIM}px;
 
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
