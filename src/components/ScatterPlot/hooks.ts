@@ -1,13 +1,20 @@
-import { RefObject, useEffect, useRef } from 'react'
+import { MutableRefObject, RefObject, useEffect, useRef, useState } from 'react'
 import isEqual from 'lodash/isEqual'
 import { scaleLinear, scaleSqrt } from 'd3-scale'
 import { extent } from 'd3-array'
+import { Voronoi } from 'd3-delaunay'
 
-import { IProps } from './ScatterPlot'
+import { IProps, IStoredValues } from './ScatterPlot'
 
-import { createUpdateAxis, createUpdateCircles } from './chartUtils'
+import {
+  createDelaunayData,
+  createUpdateAxis,
+  createUpdateCircles,
+} from './chartUtils'
 
-import { CHART_DIM, DOMAIN_PADDING, SIZE_RANGE } from '../../constants/chart'
+import { CHART_DIM, SIZE_RANGE } from '../../constants/chart'
+
+import { DataPoint } from '../../types/data'
 
 export const useMakeRefs = () => {
   const yAxisRef = useRef<SVGGElement>(null)
@@ -24,6 +31,7 @@ interface IParams {
   props: IProps
   prevProps?: IProps
   refs: TRefs
+  storedValues: MutableRefObject<IStoredValues>
 }
 
 type TRefs = {
@@ -39,8 +47,12 @@ export const useCreateUpdateElements = ({
   props,
   prevProps,
   refs,
+  storedValues,
 }: IParams) => {
   const { data, yKey, xKey, sizeKey } = props
+  const [delaunay, setDelaunay] = useState(
+    undefined as undefined | Voronoi<DataPoint>
+  )
   useEffect(() => {
     if (
       Array.isArray(data) &&
@@ -69,13 +81,21 @@ export const useCreateUpdateElements = ({
       if (sizeExtent && !!sizeExtent[1]) {
         sizeScale = scaleSqrt().domain(sizeExtent).range(SIZE_RANGE)
       }
-      createUpdateCircles({
-        area: refs.chartAreaRef,
-        props,
-        yScale,
-        xScale,
-        sizeScale,
-      })
+      if (xScale && yScale) {
+        createUpdateCircles({
+          area: refs.chartAreaRef,
+          props,
+          yScale,
+          xScale,
+          sizeScale,
+        })
+        setDelaunay(createDelaunayData(data, xKey, xScale, yKey, yScale))
+        storedValues.current = {
+          xScale,
+          yScale,
+        }
+      }
     }
-  }, [data, props, prevProps, yKey, xKey, sizeKey, refs])
+  }, [data, props, prevProps, yKey, xKey, sizeKey, refs, storedValues])
+  return delaunay
 }

@@ -8,6 +8,7 @@ import { DIM, RADIUS } from '../../constants/chart'
 
 import colors from '../../styles/colors'
 import opacity from '../../styles/opacity'
+import { Delaunay } from 'd3-delaunay'
 
 export const createUpdateAxis = (ref, scale, type, isGrid) => {
   const axesTypes = {
@@ -80,4 +81,12 @@ export const createUpdateCircles = ({
       (update) => update.call(doUpdate),
       (exit) => exit.call((exit) => exit.transition(t).attr('r', 0).remove())
     )
+}
+
+export const createDelaunayData = (data, xKey, xScale, yKey, yScale) => {
+  return Delaunay.from(
+    data,
+    (d) => xScale(d[xKey]),
+    (d) => yScale(d[yKey])
+  ).voronoi([0, 0, DIM, DIM])
 }

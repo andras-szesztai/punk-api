@@ -12,3 +12,14 @@ export const METRICS = [
   { text: 'Target FG', key: 'target_fg', value: 'target_fg' },
   { text: 'Target OG', key: 'target_og', value: 'target_og' },
 ]
+
+export const METRICS_KEY_TO_TEXT = {
+  abv: 'Abv',
+  attenuation_level: 'Attenuation Level',
+  ebc: 'EBC',
+  ibu: 'IBU',
+  ph: 'Ph',
+  srm: 'SRM',
+  target_fg: 'Target FG',
+  target_og: 'Target OG',
+}
