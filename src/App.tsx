@@ -6,19 +6,17 @@ import { ChartContainer, MetricSelector, SearchBar } from './components'
 import { useFetchOnMount } from './hooks'
 
 import { METRICS } from './constants/metrics'
+import ScatterPlot from './components/ScatterPlot/ScatterPlot'
 
 function App() {
   const { data, error } = useFetchOnMount()
-
-  const [searchDataPoint, setSearchedDataPoints] = useState('')
 
   const [yMetric, setYMetric] = useState(METRICS[0].value)
   const [xMetric, setXMetric] = useState(METRICS[1].value)
   const [sizeMetric, setSizeMetric] = useState('')
 
+  const [searchDataPoint, setSearchedDataPoints] = useState('')
   // TODO:
-  // 1. Add search based on data
-  // 2. Add searchedDataPoint state
   // 3. Build Scatterplot
 
   return (
@@ -51,6 +49,12 @@ function App() {
           left={-200}
           bottom={-40}
           clearable
+        />
+        <ScatterPlot
+          data={data}
+          yKey={yMetric}
+          xKey={xMetric}
+          sizeKey={sizeMetric}
         />
       </ChartContainer>
     </div>

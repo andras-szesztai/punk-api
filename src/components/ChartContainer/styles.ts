@@ -1,5 +1,6 @@
-import styled from "styled-components"
-import colors from "../../styles/colors"
+import styled from 'styled-components'
+import { DIM } from '../../constants/chart'
+import colors from '../../styles/colors'
 
 export const MainContainer = styled.section`
   width: 100vw;
@@ -12,9 +13,8 @@ export const MainContainer = styled.section`
 `
 
 export const SubContainer = styled.section`
-  width: 600px;
-  height: 600px;
+  width: ${DIM}px;
+  height: ${DIM}px;
 
   position: relative;
-  background-color: ${colors.light};
 `
