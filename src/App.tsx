@@ -6,12 +6,12 @@ import {
   InfoModal,
   MetricSelector,
   SearchBar,
+  ScatterPlot,
 } from './components'
 
 import { useFetchOnMount } from './hooks'
 
 import { METRICS } from './constants/metrics'
-import ScatterPlot from './components/ScatterPlot/ScatterPlot'
 
 import { DataPoint, TMetrics } from './types/data'
 

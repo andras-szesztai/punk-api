@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import chroma from 'chroma-js'
 
 import colors from '../../styles/colors'
 
