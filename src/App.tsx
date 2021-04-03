@@ -8,12 +8,16 @@ import { useFetchOnMount } from './hooks'
 import { METRICS } from './constants/metrics'
 import ScatterPlot from './components/ScatterPlot/ScatterPlot'
 
+import { TMetrics } from './types/data'
+
 function App() {
   const { data, error } = useFetchOnMount()
 
-  const [yMetric, setYMetric] = useState(METRICS[0].value)
-  const [xMetric, setXMetric] = useState(METRICS[1].value)
-  const [sizeMetric, setSizeMetric] = useState('')
+  const [yMetric, setYMetric] = useState(METRICS[0].value as TMetrics)
+  const [xMetric, setXMetric] = useState(METRICS[1].value as TMetrics)
+  const [sizeMetric, setSizeMetric] = useState(
+    undefined as TMetrics | undefined
+  )
 
   const [searchDataPoint, setSearchedDataPoints] = useState('')
   // TODO:
@@ -30,14 +34,14 @@ function App() {
         <MetricSelector
           label="Y metric"
           metric={yMetric}
-          setMetric={setYMetric}
+          setMetric={(val) => !!val && setYMetric(val as TMetrics)}
           top={-20}
           left={-200}
         />
         <MetricSelector
           label="X metric"
           metric={xMetric}
-          setMetric={setXMetric}
+          setMetric={(val) => !!val && setXMetric(val as TMetrics)}
           right={0}
           bottom={-60}
           labelBottom

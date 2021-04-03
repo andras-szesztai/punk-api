@@ -3,8 +3,8 @@ import colors from '../../styles/colors'
 
 export const AbsContainer = styled.div`
   position: absolute;
-  top: -42px;
-  left: 0px;
+  top: -65px;
+  left: 30px;
 
   display: flex;
   flex-direction: column;

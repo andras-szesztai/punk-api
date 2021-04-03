@@ -2,12 +2,13 @@ import { Dispatch, SetStateAction } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 
 import { METRICS } from '../../constants/metrics'
+import { TMetrics } from '../../types/data'
 
 import { AbsContainer, IStyleProps } from './styles'
 
 interface IProps extends IStyleProps {
-  setMetric: Dispatch<SetStateAction<string>>
-  metric: string
+  setMetric: Dispatch<SetStateAction<TMetrics | undefined>>
+  metric: TMetrics | undefined
   label: string
   labelBottom?: boolean
   clearable?: boolean
@@ -27,14 +28,8 @@ const MetricSelector = ({
       <Dropdown
         placeholder="Select a metric"
         selection
-        onChange={(_, d) => {
-          const selected = d.value
-          if (typeof selected == 'string') {
-            setMetric(selected)
-          }
-        }}
+        onChange={(_, d) => setMetric(d.value as TMetrics | undefined)}
         value={metric}
-        search
         options={METRICS}
         clearable={clearable}
       />

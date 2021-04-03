@@ -1,46 +1,57 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect } from 'react'
+import isEqual from 'lodash/isEqual'
+import { scaleLinear, scaleSqrt } from 'd3-scale'
+import { extent } from 'd3-array'
 
-import { useMakeRefs } from './hooks'
+import { createUpdateAxis } from './chartUtils'
+import { useCreateUpdateElements, useMakeRefs } from './hooks'
+import { usePrevious } from '../../hooks'
 
-import { DataPoint } from '../../types/data'
+import { DataPoint, TMetrics } from '../../types/data'
 
-import { MARGINS } from '../../constants/chart'
+import {
+  CHART_DIM,
+  DOMAIN_PADDING,
+  MARGINS,
+  SIZE_RANGE,
+} from '../../constants/chart'
 
 import { Svg } from './styles'
 
-interface IProps {
-  yKey: string
-  xKey: string
-  sizeKey?: string
+export interface IProps {
+  yKey: TMetrics
+  xKey: TMetrics
+  sizeKey?: TMetrics
   data?: DataPoint[]
 }
 
-const ScatterPlot = ({ data, yKey, xKey, sizeKey }: IProps) => {
-  const {
-    yAxisRef,
-    yGridRef,
-    xGridRef,
-    xAxisRef,
-    chartAreaRef,
-    delaunayRef,
-  } = useMakeRefs()
-  const translate = `translate(${MARGINS.left} ${MARGINS.top})`
-  const storedValues = useRef({})
-
-  useEffect(() => {
-    if (Array.isArray(data) && data.length) {
-      // const xScale =
-    }
-  }, [data])
-
+const ScatterPlot = (props: IProps) => {
+  const prevProps = usePrevious(props)
+  const refs = useMakeRefs()
+  useCreateUpdateElements({ props, prevProps, refs })
   return (
     <Svg>
-      <g ref={yAxisRef} transform={translate} />
-      <g ref={yGridRef} transform={translate} />
-      <g ref={xGridRef} transform={translate} />
-      <g ref={xAxisRef} transform={translate} />
-      <g ref={chartAreaRef} transform={translate} />
-      <g ref={delaunayRef} />
+      <g
+        ref={refs.yAxisRef}
+        transform={`translate(${MARGINS.left} ${MARGINS.top})`}
+      />
+      <g
+        ref={refs.yGridRef}
+        transform={`translate(${MARGINS.left} ${MARGINS.top})`}
+      />
+      <g
+        ref={refs.xGridRef}
+        transform={`translate(${MARGINS.left} ${MARGINS.top + CHART_DIM})`}
+      />
+      <g
+        ref={refs.xAxisRef}
+        transform={`translate(${MARGINS.left} ${MARGINS.top + CHART_DIM})`}
+      />
+      <g
+        ref={refs.chartAreaRef}
+        transform={`translate(${MARGINS.left} ${MARGINS.top})`}
+      />
+      <g ref={refs.delaunayRef} />
     </Svg>
   )
 }
