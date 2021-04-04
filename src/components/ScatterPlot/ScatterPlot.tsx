@@ -94,7 +94,7 @@ const ScatterPlot = (props: IProps) => {
       </Svg>
       {tooltipData && xScale && yScale && (
         <Tooltip
-          top={yScale(tooltipData[yKey])}
+          top={yScale(tooltipData[yKey]) + 5}
           left={xScale(tooltipData[xKey]) + MARGINS.left + 20}
         >
           <TooltipRelativeContainer>

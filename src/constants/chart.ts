@@ -1,8 +1,8 @@
 export const MARGINS = {
-  top: 16,
-  right: 16,
-  bottom: 32,
-  left: 32,
+  top: 24,
+  right: 24,
+  bottom: 48,
+  left: 48,
 }
 
 export const DIM = 600

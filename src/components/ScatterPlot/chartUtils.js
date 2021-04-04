@@ -49,9 +49,10 @@ export const createUpdateCircles = ({
   yScale,
   xScale,
   sizeScale,
+  filteredData,
 }) => {
   const chartArea = select(area.current)
-  const { data, yKey, xKey, sizeKey } = props
+  const { yKey, xKey, sizeKey } = props
   const setY = (d) => yScale(d[yKey])
   const setX = (d) => xScale(d[xKey])
   const setRadius = (d) => (sizeKey ? sizeScale(d[sizeKey]) : RADIUS)
@@ -67,7 +68,7 @@ export const createUpdateCircles = ({
 
   chartArea
     .selectAll('circle')
-    .data(data, (d) => d.id)
+    .data(filteredData, (d) => d.id)
     .join(
       (enter) =>
         enter
@@ -84,10 +85,6 @@ export const createUpdateCircles = ({
 }
 
 export const createDelaunayData = (data, xKey, xScale, yKey, yScale) => {
-  console.log(
-    '🚀 ~ file: chartUtils.js ~ line 87 ~ createDelaunayData ~ data',
-    data.find((d) => d.name.toLowerCase().includes('history'))
-  )
   return Delaunay.from(
     data,
     (d) => xScale(d[xKey]) + MARGINS.left,

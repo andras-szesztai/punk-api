@@ -62,12 +62,13 @@ export const useCreateUpdateElements = ({
       prevProps &&
       !isEqual(prevProps, props)
     ) {
-      const xExtent = extent(data, (d) => d[xKey])
+      const filteredData = data.filter((d) => !!d[xKey] && !!d[yKey])
+      const xExtent = extent(filteredData, (d) => d[xKey])
       let xScale, yScale, sizeScale
       if (!!xExtent[1]) {
         xScale = scaleLinear().domain(xExtent).range([0, CHART_DIM])
       }
-      const yExtent = extent(data, (d) => d[yKey])
+      const yExtent = extent(filteredData, (d) => d[yKey])
       if (!!yExtent[1]) {
         yScale = scaleLinear().domain(yExtent).range([CHART_DIM, 0])
       }
@@ -79,7 +80,7 @@ export const useCreateUpdateElements = ({
         createUpdateAxis(refs.yAxisRef, yScale, 'left')
         createUpdateAxis(refs.yGridRef, yScale, 'right', true)
       }
-      const sizeExtent = sizeKey && extent(data, (d) => d[sizeKey])
+      const sizeExtent = sizeKey && extent(filteredData, (d) => d[sizeKey])
       if (sizeExtent && !!sizeExtent[1]) {
         sizeScale = scaleSqrt().domain(sizeExtent).range(SIZE_RANGE)
       }
@@ -90,6 +91,7 @@ export const useCreateUpdateElements = ({
           yScale,
           xScale,
           sizeScale,
+          filteredData,
         })
         setDelaunay(createDelaunayData(data, xKey, xScale, yKey, yScale))
         storedValues.current = {
