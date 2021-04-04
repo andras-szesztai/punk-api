@@ -4,7 +4,7 @@ import { easeCubicInOut } from 'd3-ease'
 import 'd3-transition'
 
 import { DURATION } from '../../constants/animation'
-import { DIM, RADIUS } from '../../constants/chart'
+import { DIM, MARGINS, RADIUS } from '../../constants/chart'
 
 import colors from '../../styles/colors'
 import opacity from '../../styles/opacity'
@@ -84,9 +84,13 @@ export const createUpdateCircles = ({
 }
 
 export const createDelaunayData = (data, xKey, xScale, yKey, yScale) => {
+  console.log(
+    '🚀 ~ file: chartUtils.js ~ line 87 ~ createDelaunayData ~ data',
+    data.find((d) => d.name.toLowerCase().includes('history'))
+  )
   return Delaunay.from(
     data,
-    (d) => xScale(d[xKey]),
-    (d) => yScale(d[yKey])
+    (d) => xScale(d[xKey]) + MARGINS.left,
+    (d) => yScale(d[yKey]) + MARGINS.top
   ).voronoi([0, 0, DIM, DIM])
 }

@@ -72,21 +72,25 @@ const ScatterPlot = (props: IProps) => {
         />
         {delaunay &&
           data &&
-          data.map((_, i) => (
-            <path
-              key={i}
-              d={delaunay.renderCell(i)}
-              stroke="transparent"
-              fill="transparent"
-              onMouseEnter={() => !searchDataPoint && setHoveredData(data[i])}
-              onMouseLeave={() => !searchDataPoint && setHoveredData(undefined)}
-              onClick={() =>
-                !!searchDataPoint
-                  ? setSelectedDataPoint(searchDataPoint)
-                  : setSelectedDataPoint(data[i])
-              }
-            />
-          ))}
+          data.map((_, i) => {
+            return (
+              <path
+                key={i}
+                d={delaunay.renderCell(i)}
+                stroke="transparent"
+                fill="transparent"
+                onMouseEnter={() => !searchDataPoint && setHoveredData(data[i])}
+                onMouseLeave={() =>
+                  !searchDataPoint && setHoveredData(undefined)
+                }
+                onClick={() =>
+                  !!searchDataPoint
+                    ? setSelectedDataPoint(searchDataPoint)
+                    : setSelectedDataPoint(data[i])
+                }
+              />
+            )
+          })}
       </Svg>
       {tooltipData && xScale && yScale && (
         <Tooltip

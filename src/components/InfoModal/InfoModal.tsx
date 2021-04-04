@@ -30,7 +30,7 @@ const InfoModal = ({
         <>
           <Modal.Header>{selectedDataPoint.name}</Modal.Header>
           <Modal.Content image>
-            <Image size="medium" src={selectedDataPoint.image_url} wrapped />
+            <Image size="small" src={selectedDataPoint.image_url} wrapped />
             <Modal.Description>
               <Header>{selectedDataPoint.tagline}</Header>
               <MetricInfo>

@@ -18,7 +18,6 @@ type TOption = {
 }
 
 const SearchBar = ({ setValue, value, data }: IProps) => {
-  console.log('🚀 ~ file: SearchBar.tsx ~ line 21 ~ SearchBar ~ value', value)
   const [options, setOptions] = useState([] as undefined | Array<TOption>)
   useEffect(() => {
     if (Array.isArray(data) && data.length) {
