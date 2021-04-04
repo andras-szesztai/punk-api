@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual'
 import { scaleLinear, scaleSqrt } from 'd3-scale'
 import { extent } from 'd3-array'
 import { Voronoi } from 'd3-delaunay'
+import { select, selectAll } from 'd3-selection'
 
 import { IProps, IStoredValues } from './ScatterPlot'
 
@@ -15,6 +16,7 @@ import {
 import { CHART_DIM, SIZE_RANGE } from '../../constants/chart'
 
 import { DataPoint } from '../../types/data'
+import colors from '../../styles/colors'
 
 export const useMakeRefs = () => {
   const yAxisRef = useRef<SVGGElement>(null)
@@ -98,4 +100,21 @@ export const useCreateUpdateElements = ({
     }
   }, [data, props, prevProps, yKey, xKey, sizeKey, refs, storedValues])
   return delaunay
+}
+
+export const useUpdateOnHover = (tooltipData?: DataPoint) => {
+  useEffect(() => {
+    if (!!tooltipData) {
+      selectAll('circle')
+        .attr('fill', colors.lightOpaque)
+        .each((d: any, i, n) => {
+          if (d.id === tooltipData.id) {
+            select(n[i]).raise()
+            select(n[i]).attr('fill', colors.light)
+          }
+        })
+    } else {
+      selectAll('circle').attr('fill', colors.lightOpaque)
+    }
+  })
 }

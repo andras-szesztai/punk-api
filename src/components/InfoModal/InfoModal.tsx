@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { Button, Header, Image, Modal } from 'semantic-ui-react'
 
 import { METRICS } from '../../constants/metrics'
@@ -18,9 +18,11 @@ const InfoModal = ({
   setSelectedDataPoint,
   setSearchedDataPoint,
 }: IProps) => {
+  const [isFavorited, setIsFavorited] = useState(false)
   const handleClose = () => {
     setSearchedDataPoint(undefined)
     setSelectedDataPoint(undefined)
+    setIsFavorited(false)
   }
   return (
     <Modal onClose={handleClose} open={!!selectedDataPoint}>
@@ -70,10 +72,10 @@ const InfoModal = ({
           Close
         </Button>
         <Button
-          content="Favorite"
+          content={isFavorited ? 'Unfavorite' : 'Favorite'}
           labelPosition="right"
-          icon="heart"
-          onClick={() => window.alert('Favorited!!!')}
+          icon={isFavorited ? 'heart' : 'heart outline'}
+          onClick={() => setIsFavorited((prev) => !prev)}
           positive
         />
       </Modal.Actions>
