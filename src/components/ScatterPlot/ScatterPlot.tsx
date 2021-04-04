@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { ScaleLinear } from 'd3-scale'
+import { select, selectAll } from 'd3-selection'
 
 import { useCreateUpdateElements, useMakeRefs } from './hooks'
 import { usePrevious } from '../../hooks'
@@ -7,9 +8,10 @@ import { usePrevious } from '../../hooks'
 import { DataPoint, TMetrics } from '../../types/data'
 
 import { CHART_DIM, MARGINS } from '../../constants/chart'
-
-import { Svg, Tooltip } from './styles'
 import { METRICS_KEY_TO_TEXT } from '../../constants/metrics'
+
+import { Svg, Tooltip, TooltipRelativeContainer } from './styles'
+import colors from '../../styles/colors'
 
 export interface IProps {
   yKey: TMetrics
@@ -45,6 +47,20 @@ const ScatterPlot = (props: IProps) => {
   )
 
   const tooltipData = searchDataPoint || hoveredData
+  useEffect(() => {
+    if (!!tooltipData) {
+      selectAll('circle')
+        .attr('fill', colors.lightOpaque)
+        .each((d: any, i, n) => {
+          if (d.id === tooltipData.id) {
+            select(n[i]).raise()
+            select(n[i]).attr('fill', colors.light)
+          }
+        })
+    } else {
+      selectAll('circle').attr('fill', colors.lightOpaque)
+    }
+  })
   return (
     <>
       <Svg>
@@ -89,20 +105,24 @@ const ScatterPlot = (props: IProps) => {
       {tooltipData && xScale && yScale && (
         <Tooltip
           top={yScale(tooltipData[yKey])}
-          left={xScale(tooltipData[xKey]) + MARGINS.left + 16}
+          left={xScale(tooltipData[xKey]) + MARGINS.left + 20}
         >
-          <div>
-            <span>{tooltipData.name}</span>
-          </div>
-          <div>
-            {METRICS_KEY_TO_TEXT[yKey]}:&nbsp; <span>{tooltipData[yKey]}</span>
-          </div>
-          <div>
-            {METRICS_KEY_TO_TEXT[xKey]}: &nbsp;<span>{tooltipData[xKey]}</span>
-          </div>
-          <div>
-            <span>Click</span> to find out more!
-          </div>
+          <TooltipRelativeContainer>
+            <div>
+              <span>{tooltipData.name}</span>
+            </div>
+            <div>
+              {METRICS_KEY_TO_TEXT[yKey]}:&nbsp;{' '}
+              <span>{tooltipData[yKey]}</span>
+            </div>
+            <div>
+              {METRICS_KEY_TO_TEXT[xKey]}: &nbsp;
+              <span>{tooltipData[xKey]}</span>
+            </div>
+            <div>
+              <span>Click</span> to find out more!
+            </div>
+          </TooltipRelativeContainer>
         </Tooltip>
       )}
     </>

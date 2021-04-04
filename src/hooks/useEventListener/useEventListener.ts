@@ -5,7 +5,6 @@ function useEventListener(
   handler: (e: any) => void,
   element = window
 ) {
-  // Create a ref that stores handler
   const savedHandler = useRef<any>(null)
 
   useEffect(() => {

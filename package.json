@@ -59,6 +59,8 @@
     "@types/d3-array": "^2.9.0",
     "@types/d3-delaunay": "^5.3.0",
     "@types/d3-scale": "^3.2.2",
+    "@types/d3-selection": "^2.0.0",
+    "@types/d3-transition": "^2.0.0",
     "@types/lodash": "^4.14.168",
     "@types/styled-components": "^5.1.9"
   }
