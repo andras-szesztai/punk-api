@@ -15,6 +15,7 @@ export interface IProps {
   yKey: TMetrics
   xKey: TMetrics
   setSelectedDataPoint: Dispatch<SetStateAction<DataPoint | undefined>>
+  searchDataPoint?: DataPoint
   sizeKey?: TMetrics
   data?: DataPoint[]
 }
@@ -26,7 +27,7 @@ export interface IStoredValues {
 
 const ScatterPlot = (props: IProps) => {
   const prevProps = usePrevious(props)
-  const { data, setSelectedDataPoint, xKey, yKey } = props
+  const { data, setSelectedDataPoint, xKey, yKey, searchDataPoint } = props
   const refs = useMakeRefs()
   const storedValues = useRef<IStoredValues>({
     xScale: undefined,
@@ -43,6 +44,7 @@ const ScatterPlot = (props: IProps) => {
     undefined as undefined | DataPoint
   )
 
+  const tooltipData = searchDataPoint || hoveredData
   return (
     <>
       <Svg>
@@ -74,25 +76,29 @@ const ScatterPlot = (props: IProps) => {
               d={delaunay.renderCell(i)}
               stroke="transparent"
               fill="transparent"
-              onMouseEnter={() => setHoveredData(data[i])}
-              onMouseLeave={() => setHoveredData(undefined)}
-              onClick={() => setSelectedDataPoint(data[i])}
+              onMouseEnter={() => !searchDataPoint && setHoveredData(data[i])}
+              onMouseLeave={() => !searchDataPoint && setHoveredData(undefined)}
+              onClick={() =>
+                !!searchDataPoint
+                  ? setSelectedDataPoint(searchDataPoint)
+                  : setSelectedDataPoint(data[i])
+              }
             />
           ))}
       </Svg>
-      {hoveredData && xScale && yScale && (
+      {tooltipData && xScale && yScale && (
         <Tooltip
-          top={yScale(hoveredData[yKey])}
-          left={xScale(hoveredData[xKey]) + MARGINS.left + 16}
+          top={yScale(tooltipData[yKey])}
+          left={xScale(tooltipData[xKey]) + MARGINS.left + 16}
         >
           <div>
-            <span>{hoveredData.name}</span>
+            <span>{tooltipData.name}</span>
           </div>
           <div>
-            {METRICS_KEY_TO_TEXT[yKey]}:&nbsp; <span>{hoveredData[yKey]}</span>
+            {METRICS_KEY_TO_TEXT[yKey]}:&nbsp; <span>{tooltipData[yKey]}</span>
           </div>
           <div>
-            {METRICS_KEY_TO_TEXT[xKey]}: &nbsp;<span>{hoveredData[xKey]}</span>
+            {METRICS_KEY_TO_TEXT[xKey]}: &nbsp;<span>{tooltipData[xKey]}</span>
           </div>
           <div>
             <span>Click</span> to find out more!

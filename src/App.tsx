@@ -9,7 +9,7 @@ import {
   ScatterPlot,
 } from './components'
 
-import { useFetchOnMount } from './hooks'
+import { useEventListener, useFetchOnMount } from './hooks'
 
 import { METRICS } from './constants/metrics'
 
@@ -24,10 +24,18 @@ function App() {
     undefined as TMetrics | undefined
   )
 
-  const [searchDataPoint, setSearchedDataPoint] = useState('')
+  const [searchDataPoint, setSearchedDataPoint] = useState(
+    undefined as undefined | DataPoint
+  )
   const [selectedDataPoint, setSelectedDataPoint] = useState(
     undefined as undefined | DataPoint
   )
+
+  useEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && searchDataPoint) {
+      setSelectedDataPoint(searchDataPoint)
+    }
+  })
 
   return (
     <div className="App">
@@ -67,6 +75,7 @@ function App() {
             xKey={xMetric}
             sizeKey={sizeMetric}
             setSelectedDataPoint={setSelectedDataPoint}
+            searchDataPoint={searchDataPoint}
           />
         ) : (
           <p>{error}</p>
@@ -75,6 +84,7 @@ function App() {
       <InfoModal
         selectedDataPoint={selectedDataPoint}
         setSelectedDataPoint={setSelectedDataPoint}
+        setSearchedDataPoint={setSearchedDataPoint}
       />
     </div>
   )

@@ -10,14 +10,20 @@ import { MetricInfo } from './styles'
 interface IProps {
   selectedDataPoint?: DataPoint
   setSelectedDataPoint: Dispatch<SetStateAction<DataPoint | undefined>>
+  setSearchedDataPoint: Dispatch<SetStateAction<DataPoint | undefined>>
 }
 
-const InfoModal = ({ selectedDataPoint, setSelectedDataPoint }: IProps) => {
+const InfoModal = ({
+  selectedDataPoint,
+  setSelectedDataPoint,
+  setSearchedDataPoint,
+}: IProps) => {
+  const handleClose = () => {
+    setSearchedDataPoint(undefined)
+    setSelectedDataPoint(undefined)
+  }
   return (
-    <Modal
-      onClose={() => setSelectedDataPoint(undefined)}
-      open={!!selectedDataPoint}
-    >
+    <Modal onClose={handleClose} open={!!selectedDataPoint}>
       {selectedDataPoint && (
         <>
           <Modal.Header>{selectedDataPoint.name}</Modal.Header>
@@ -60,7 +66,7 @@ const InfoModal = ({ selectedDataPoint, setSelectedDataPoint }: IProps) => {
         </>
       )}
       <Modal.Actions>
-        <Button color="black" onClick={() => setSelectedDataPoint(undefined)}>
+        <Button color="black" onClick={handleClose}>
           Close
         </Button>
         <Button

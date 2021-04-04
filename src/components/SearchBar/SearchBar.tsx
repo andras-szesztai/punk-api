@@ -6,8 +6,8 @@ import { DataPoint } from '../../types/data'
 import { AbsContainer } from './styles'
 
 interface IProps {
-  setValue: Dispatch<SetStateAction<string>>
-  value: string
+  setValue: Dispatch<SetStateAction<DataPoint | undefined>>
+  value?: DataPoint
   data?: DataPoint[]
 }
 
@@ -18,12 +18,13 @@ type TOption = {
 }
 
 const SearchBar = ({ setValue, value, data }: IProps) => {
+  console.log('🚀 ~ file: SearchBar.tsx ~ line 21 ~ SearchBar ~ value', value)
   const [options, setOptions] = useState([] as undefined | Array<TOption>)
   useEffect(() => {
     if (Array.isArray(data) && data.length) {
       setOptions(
         data
-          .map((d) => ({ key: d.name, text: d.name, value: d.name }))
+          .map((d) => ({ key: d.name, text: d.name, value: d.id.toString() }))
           .sort((a, b) => a.key.localeCompare(b.key))
       )
     }
@@ -36,11 +37,11 @@ const SearchBar = ({ setValue, value, data }: IProps) => {
         selection
         onChange={(_, d) => {
           const selected = d.value
-          if (typeof selected == 'string') {
-            setValue(selected)
+          if (typeof selected == 'string' && data) {
+            setValue(data.find((o) => o.id.toString() === selected))
           }
         }}
-        value={value}
+        value={value?.id.toString() || ''}
         options={options}
         icon="search"
         search
