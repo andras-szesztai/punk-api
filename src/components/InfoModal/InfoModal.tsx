@@ -44,7 +44,7 @@ const InfoModal = ({
                   <MetricInfo key={value}>
                     <p>
                       <span>{text}:</span>&nbsp;
-                      {selectedDataPoint[value as TMetrics]}
+                      {selectedDataPoint[value]}
                     </p>
                   </MetricInfo>
                 )

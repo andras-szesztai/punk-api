@@ -25,3 +25,4 @@ export type TMetrics =
   | 'ebc'
   | 'srm'
   | 'ph'
+  | 'attenuation_level'

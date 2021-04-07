@@ -1,4 +1,6 @@
-export const METRICS = [
+import { TMetrics } from '../types/data'
+
+export const METRICS: { text: string; key: TMetrics; value: TMetrics }[] = [
   { text: 'ABV', key: 'abv', value: 'abv' },
   {
     text: 'Attenuation Level',

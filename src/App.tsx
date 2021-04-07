@@ -18,8 +18,8 @@ import { DataPoint, TMetrics } from './types/data'
 function App() {
   const { data, error } = useFetchOnMount()
 
-  const [yMetric, setYMetric] = useState<TMetrics>(METRICS[0].value as TMetrics)
-  const [xMetric, setXMetric] = useState<TMetrics>(METRICS[1].value as TMetrics)
+  const [yMetric, setYMetric] = useState(METRICS[0].value)
+  const [xMetric, setXMetric] = useState(METRICS[1].value)
   const [sizeMetric, setSizeMetric] = useState<TMetrics | undefined>(undefined)
 
   const [searchDataPoint, setSearchedDataPoint] = useState<

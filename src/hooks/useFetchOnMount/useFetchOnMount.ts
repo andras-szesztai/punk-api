@@ -7,7 +7,7 @@ import { ROOT_URL } from '../../constants/url'
 import { DataPoint } from '../../types/data'
 
 const useFetchOnMount = () => {
-  const [data, setData] = useState<undefined | Array<DataPoint>>([])
+  const [data, setData] = useState<Array<DataPoint>>([])
   const [error, setError] = useState('')
   const isFetched = useRef(false)
 
@@ -23,9 +23,9 @@ const useFetchOnMount = () => {
         ])
         .then(
           axios.spread((...args: AxiosResponse<Array<DataPoint>>[]) => {
-            const allData = args.reduce((acc, curr) => {
+            const allData = args.reduce<Array<DataPoint>>((acc, curr) => {
               return (acc = [...acc, ...curr.data])
-            }, [] as Array<DataPoint>)
+            }, [])
             setData(allData)
           })
         )
