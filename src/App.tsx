@@ -18,18 +18,16 @@ import { DataPoint, TMetrics } from './types/data'
 function App() {
   const { data, error } = useFetchOnMount()
 
-  const [yMetric, setYMetric] = useState(METRICS[0].value as TMetrics)
-  const [xMetric, setXMetric] = useState(METRICS[1].value as TMetrics)
-  const [sizeMetric, setSizeMetric] = useState(
-    undefined as TMetrics | undefined
-  )
+  const [yMetric, setYMetric] = useState<TMetrics>(METRICS[0].value as TMetrics)
+  const [xMetric, setXMetric] = useState<TMetrics>(METRICS[1].value as TMetrics)
+  const [sizeMetric, setSizeMetric] = useState<TMetrics | undefined>(undefined)
 
-  const [searchDataPoint, setSearchedDataPoint] = useState(
-    undefined as undefined | DataPoint
-  )
-  const [selectedDataPoint, setSelectedDataPoint] = useState(
-    undefined as undefined | DataPoint
-  )
+  const [searchDataPoint, setSearchedDataPoint] = useState<
+    DataPoint | undefined
+  >(undefined)
+  const [selectedDataPoint, setSelectedDataPoint] = useState<
+    DataPoint | undefined
+  >(undefined)
 
   useEventListener('keydown', (e: KeyboardEvent) => {
     if (e.key === 'Enter' && searchDataPoint) {

@@ -52,8 +52,8 @@ export const useCreateUpdateElements = ({
   storedValues,
 }: IParams) => {
   const { data, yKey, xKey, sizeKey } = props
-  const [delaunay, setDelaunay] = useState(
-    undefined as undefined | Voronoi<DataPoint>
+  const [delaunay, setDelaunay] = useState<undefined | Voronoi<DataPoint>>(
+    undefined
   )
   useEffect(() => {
     if (

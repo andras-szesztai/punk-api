@@ -40,8 +40,8 @@ const ScatterPlot = (props: IProps) => {
     refs,
     storedValues,
   })
-  const [hoveredData, setHoveredData] = useState(
-    undefined as undefined | DataPoint
+  const [hoveredData, setHoveredData] = useState<undefined | DataPoint>(
+    undefined
   )
 
   const tooltipData = searchDataPoint || hoveredData
