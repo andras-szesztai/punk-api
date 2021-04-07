@@ -3,7 +3,7 @@ import { Button, Header, Image, Modal } from 'semantic-ui-react'
 
 import { METRICS } from '../../constants/metrics'
 
-import { DataPoint, TMetrics } from '../../types/data'
+import { DataPoint } from '../../types/data'
 
 import { MetricInfo } from './styles'
 
